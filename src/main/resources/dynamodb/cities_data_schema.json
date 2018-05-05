@@ -1,0 +1,109 @@
+{
+   "AttributeDefinitions": [ 
+      { 
+         "AttributeName": "city",
+         "AttributeType": "S"
+      },
+      { 
+         "AttributeName": "growth_from_2000_to_2013",
+         "AttributeType": "S"
+      },
+      { 
+         "AttributeName": "latitude",
+         "AttributeType": "N"
+      },
+      { 
+         "AttributeName": "longitude",
+         "AttributeType": "N"
+      },
+      { 
+         "AttributeName": "population",
+         "AttributeType": "S"
+      },
+      { 
+         "AttributeName": "rank",
+         "AttributeType": "S"
+      },
+      { 
+         "AttributeName": "state",
+         "AttributeType": "S"
+      }
+   ],
+   
+   
+   "GlobalSecondaryIndexes": [ 
+      { 
+         "IndexName": "city_index",
+         "KeySchema": [ 
+            { 
+               "AttributeName": "rank",
+               "KeyType": "Hash" 
+            },
+            
+            {
+              "AttributeName": "city",
+               "KeyType": "Range"
+            }
+         ],
+         
+         "Projection": { 
+            "NonKeyAttributes": [ "state" ,"population"],
+            "ProjectionType": "INCLUDE"
+         },
+         
+         "ProvisionedThroughput": { 
+            "ReadCapacityUnits": 1,
+            "WriteCapacityUnits": 1
+         }
+      }
+   ],
+   
+   "KeySchema": [ 
+      { 
+         "AttributeName": "rank",
+         "KeyType": "Hash"
+      },
+      
+      { 
+         "AttributeName": "growth_from_2000_to_2013",
+         "KeyType": "Range"
+      }
+      
+   ],
+   
+   "LocalSecondaryIndexes": [ 
+      { 
+         "IndexName": "rank_population_index",
+         "KeySchema": [ 
+            { 
+               "AttributeName": "rank",
+               "KeyType": "Hash"
+            },
+            { 
+               "AttributeName": "population",
+               "KeyType": "Range"
+            }
+         ],
+         
+         "Projection": { 
+            "NonKeyAttributes": [ "city", "state" ],
+            "ProjectionType": "INCLUDE"
+         }
+      }
+   ],
+   
+   "ProvisionedThroughput": { 
+      "ReadCapacityUnits": 5,
+      "WriteCapacityUnits": 5
+   },
+   
+   "SSESpecification": { 
+      "Enabled": false
+   },
+   
+   "StreamSpecification": { 
+      "StreamEnabled": false
+   },
+   
+   "TableName": "cities"
+ } 
